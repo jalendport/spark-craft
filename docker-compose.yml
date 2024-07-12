@@ -1,0 +1,52 @@
+services:
+  mysql:
+    image: jalendport/spark-mysql:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: "${CRAFT_DB_DATABASE}"
+    init: true
+    ports:
+      - "3307:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+
+  nginx:
+    image: jalendport/spark-nginx:1.26
+    init: true
+    ports:
+      - "8000:80"
+    volumes:
+      - ./web:/app/web
+
+  node:
+    build:
+      context: ./config/docker/node
+      dockerfile: ./Dockerfile
+    init: true
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/app
+
+  php:
+    build:
+      context: ./config/docker/php
+      dockerfile: ./Dockerfile
+    expose:
+      - "9000"
+    init: true
+    volumes:
+      - .:/app
+
+  queue:
+    build:
+      context: ./config/docker/queue
+      dockerfile: ./Dockerfile
+    expose:
+      - "9001"
+    init: true
+    volumes:
+      - .:/app
+
+volumes:
+  db-data:
