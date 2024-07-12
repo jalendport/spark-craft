@@ -1,6 +1,6 @@
 {
 	"require": {
-		"craftcms/cms": "^4.4.0",
+		"craftcms/cms": "^5.0.0",
 		"vlucas/phpdotenv": "^5.4.0"
 	},
 	"require-dev": {
@@ -20,7 +20,7 @@
 		"sort-packages": true,
 		"optimize-autoloader": true,
 		"platform": {
-			"php": "8.0.2"
+			"php": "8.3"
 		}
 	},
 	"scripts": {

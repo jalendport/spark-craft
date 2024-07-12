@@ -1,4 +1,4 @@
-FROM jalendport/spark-php:8.0-cli
+FROM jalendport/spark-php:8.3-cli
 
 ARG UID
 ARG GID

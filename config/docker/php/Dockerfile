@@ -1,4 +1,4 @@
-FROM jalendport/spark-php:8.0-fpm
+FROM jalendport/spark-php:8.3-fpm
 
 ARG UID
 ARG GID
