@@ -1,0 +1,122 @@
+@layer components {
+	body {
+		@apply text-pretty;
+	}
+
+	@custom-selector :--p p:not([class*="faux-"]), .faux-p;
+	@custom-selector :--p-all :--p, .faux-p-sm, .faux-p-lg;
+
+	@custom-selector :--h1 h1:not([class*="faux-"]), .faux-h1;
+	@custom-selector :--h2 h2:not([class*="faux-"]), .faux-h2;
+	@custom-selector :--h3 h3:not([class*="faux-"]), .faux-h3;
+	@custom-selector :--h4 h4:not([class*="faux-"]), .faux-h4;
+	@custom-selector :--h5 h5:not([class*="faux-"]), .faux-h5;
+	@custom-selector :--h6 h6:not([class*="faux-"]), .faux-h6;
+	@custom-selector :--h-all :--h1, :--h2, :--h3, :--h4, :--h5, :--h6;
+
+	:--h-all {
+		@apply text-balance;
+	}
+
+	:--h1 {
+		@apply ~text-16/18;
+		// @apply font-things;
+
+		& + :--p-all {
+			@apply ~mt-10/20; // margin between h1 and p
+		}
+	}
+
+	:--h2 {
+		@apply ~text-16/18;
+		// @apply font-things;
+
+		& + :--p-all {
+			@apply ~mt-10/20; // margin between h2 and p
+		}
+	}
+
+	:--h3 {
+		@apply ~text-16/18;
+		// @apply font-things;
+
+		& + :--p-all {
+			@apply ~mt-10/20; // margin between h3 and p
+		}
+	}
+
+	:--h4 {
+		@apply ~text-16/18;
+		// @apply font-things;
+
+		& + :--p-all {
+			@apply ~mt-10/20; // margin between h4 and p
+		}
+	}
+
+	:--h5 {
+		@apply ~text-16/18;
+		// @apply font-things;
+
+		& + :--p-all {
+			@apply ~mt-10/20; // margin between h5 and p
+		}
+	}
+
+	:--h6 {
+		@apply ~text-16/18;
+		// @apply font-things;
+
+		& + :--p-all {
+			@apply ~mt-10/20; // margin between h6 and p
+		}
+	}
+
+	:--p {
+		@apply ~text-16/18;
+		// @apply font-things;
+
+		& + & {
+			@apply ~mt-10/20; // margin between p and p
+		}
+	}
+
+	.faux-p-sm {
+		@apply ~text-16/18;
+		// @apply font-things;
+
+		& + & {
+			@apply ~mt-10/20; // margin between p-sm and p-sm
+		}
+
+		:--p + &,
+		& + :--p {
+			@apply ~mt-10/20; // margin between p and p-sm
+		}
+	}
+
+	.faux-p-lg {
+		@apply ~text-16/18;
+		// @apply font-things;
+
+		& + & {
+			@apply ~mt-10/20; // margin between p-lg and p-lg
+		}
+
+		:is(:--p, .faux-p-sm) + &,
+		& + :is(:--p, .faux-p-sm) {
+			@apply ~mt-10/20; // margin between p-sm and p-lg
+		}
+	}
+
+	blockquote {
+		quotes: "“" "”" "‘" "’";
+
+		&::before {
+			content: open-quote;
+		}
+		&::after {
+			content: close-quote;
+		}
+	}
+}

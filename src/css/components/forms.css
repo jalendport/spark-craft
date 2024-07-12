@@ -1,0 +1,42 @@
+@layer components {
+	form label {
+		@apply ~text-16/18;
+
+		abbr {
+			@apply text-red-500 no-underline;
+		}
+	}
+
+	@custom-selector :--text-inputs
+		input[type="text"],
+		input[type="email"],
+		input[type="tel"],
+		.form-input;
+	@custom-selector :--textarea textarea, .form-textarea;
+	@custom-selector :--text-elements :--text-inputs, :--textarea;
+
+	:--text-elements {
+		@apply ~text-16/18;
+		@apply w-full bg-white;
+		@apply border border-gray-200;
+
+		&:focus {
+			@apply outline-none ring-1 ring-gray-500;
+		}
+
+		label + & {
+			@apply mt-2;
+		}
+	}
+
+	textarea {
+		@apply resize-none align-top;
+		field-sizing: content;
+		min-height: calc((theme("spacing.8") * 2) + 4lh + 2px);
+	}
+
+	.honeypot {
+		position: absolute;
+		left: -9999vw;
+	}
+}

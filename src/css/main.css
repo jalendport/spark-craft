@@ -1,0 +1,17 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+@import "./components/typography.css";
+@import "./components/forms.css";
+
+@import "tailwindcss/utilities";
+
+@layer components {
+	html {
+		@apply motion-safe:scroll-smooth motion-safe:scroll-pt-0;
+	}
+
+	body {
+		// @apply ...;
+	}
+}
