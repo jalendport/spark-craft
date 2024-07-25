@@ -1,6 +1,8 @@
 {
 	"name": "jalendport/craft",
+	"version": "1.0.0-alpha.1",
 	"description": "Craft CMS starter project",
+	"type": "project",
 	"keywords": [
 		"craft",
 		"cms",
@@ -8,10 +10,10 @@
 		"project"
 	],
 	"license": "0BSD",
-	"type": "project",
 	"scripts": {
 		"post-create-project-cmd": [
 			"@php -r \"unlink('README.md');\"",
+			"@php -r \"unlink('CHANGELOG.md');\"",
 			"@php -r \"unlink('LICENSE');\"",
 			"@php -r \"rename('.env.example', '.env');\"",
 			"@php -r \"unlink('composer.json');\"",
