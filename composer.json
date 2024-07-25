@@ -1,7 +1,7 @@
 {
 	"name": "jalendport/spark-craft",
-	"version": "1.0.0-alpha.1",
 	"description": "Craft CMS starter project",
+	"version": "1.0.0-alpha.1",
 	"type": "project",
 	"keywords": [
 		"craft",
@@ -10,15 +10,58 @@
 		"project"
 	],
 	"license": "0BSD",
+	"authors": [
+		{
+			"name": "Jalen Davenport",
+			"email": "hello@jalendport.com",
+			"homepage": "https://jalendport.com",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"email": "support@jalendport.com",
+		"issues": "https://github.com/jalendport/spark-craft/issues",
+		"source": "https://github.com/jalendport/spark-craft",
+		"docs": "https://github.com/jalendport/spark-craft/blob/master/README.MD"
+	},
+	"funding": [
+		{
+			"type": "github",
+			"url": "https://github.com/sponsors/jalendport"
+		}
+	],
+	"require": {
+		"craftcms/cms": "^5.0.0",
+		"vlucas/phpdotenv": "^5.4.0"
+	},
+	"require-dev": {
+		"craftcms/generator": "^2.0.0",
+		"yiisoft/yii2-shell": "^2.0.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"modules\\": "src/modules/"
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true,
+	"config": {
+		"allow-plugins": {
+			"craftcms/plugin-installer": true,
+			"yiisoft/yii2-composer": true
+		},
+		"sort-packages": true,
+		"optimize-autoloader": true,
+		"platform": {
+			"php": "8.3"
+		}
+	},
 	"scripts": {
 		"post-create-project-cmd": [
-			"@php -r \"unlink('README.md');\"",
-			"@php -r \"unlink('CHANGELOG.md');\"",
-			"@php -r \"unlink('LICENSE');\"",
-			"@php -r \"rename('.env.example', '.env');\"",
+			"@php -r \"file_exists('.env') || copy('.example.env', '.env');\"",
 			"@php -r \"unlink('composer.json');\"",
-			"@php -r \"unlink('composer.lock');\"",
-			"@php -r \"rename('composer.json.project', 'composer.json');\""
+			"@php -r \"rename('composer.json.project', 'composer.json');\"",
+			"@composer dump-autoload -o"
 		]
 	}
 }
