@@ -4,7 +4,7 @@
  */
 
 // Load shared bootstrap
-require dirname(__DIR__) . '/bootstrap.php';
+require dirname(__DIR__) . '/config/craft/bootstrap.php';
 
 // Load and run Craft
 /** @var craft\web\Application $app */
