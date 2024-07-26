@@ -16,7 +16,7 @@
 		"@vitejs/plugin-legacy": "^5.4.0",
 		"@vitejs/plugin-vue": "^5.0.0",
 		"autoprefixer": "^10.4.0",
-		"fluid-tailwind": "^0.3.0",
+		"fluid-tailwind": "^1.0.0",
 		"postcss": "^8.4.0",
 		"postcss-custom-selectors": "^7.1.0",
 		"postcss-import": "^16.1.0",
