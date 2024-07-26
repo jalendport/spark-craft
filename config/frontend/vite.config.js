@@ -19,7 +19,7 @@ export default defineConfig(({ command, mode }) => {
 			sourcemap: true,
 		},
 		css: {
-			postcss: "config/build",
+			postcss: "config/frontend",
 		},
 		plugins: [
 			compression({

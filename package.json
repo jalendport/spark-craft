@@ -4,9 +4,9 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite --config ./config/build/vite.config.js",
-		"build": "vite build --config ./config/build/vite.config.js",
-		"preview": "vite preview --config ./config/build/vite.config.js"
+		"dev": "vite --config ./config/frontend/vite.config.js",
+		"build": "vite build --config ./config/frontend/vite.config.js",
+		"preview": "vite preview --config ./config/frontend/vite.config.js"
 	},
 	"dependencies": {
 		"vue": "^3.4.0"

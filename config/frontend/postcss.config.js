@@ -9,7 +9,7 @@ export default {
 		postcssImport(),
 		postcssCustomSelectors(),
 		tailwindcssNesting(),
-		tailwindcss({ config: "config/build/tailwind.config.js" }),
+		tailwindcss({ config: "config/frontend/tailwind.config.js" }),
 		autoprefixer(),
 	],
 };
