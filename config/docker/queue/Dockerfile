@@ -1,5 +1,8 @@
 FROM jalendport/spark-php:8.3-cli
 
+COPY ./run_queue.sh /app-tmp/run_queue.sh
+RUN chmod a+x /app-tmp/run_queue.sh
+
 ARG UID
 ARG GID
 
@@ -15,5 +18,8 @@ RUN addgroup -g ${GID} --system spark
 RUN adduser -G spark --system -D -s /bin/sh -u ${UID} spark
 
 USER spark
+
+# Prevents the queue from running until the database is ready
+ENTRYPOINT [ "/app-tmp/run_queue.sh" ]
 
 CMD ["php", "craft", "queue/listen", "--verbose"]

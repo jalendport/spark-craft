@@ -1,7 +1,7 @@
 {
 	"name": "jalendport/spark-craft",
 	"description": "Craft CMS starter project",
-	"version": "1.0.0-alpha.1",
+	"version": "1.0.0-alpha.2",
 	"type": "project",
 	"keywords": [
 		"craft",
@@ -58,9 +58,10 @@
 	},
 	"scripts": {
 		"post-create-project-cmd": [
-			"@php -r \"file_exists('.env') || copy('.example.env', '.env');\"",
-			"@php -r \"unlink('composer.json');\"",
-			"@php -r \"rename('composer.json.project', 'composer.json');\"",
+			"@php -r \"file_exists('.env') || rename('.env.example', '.env');\"",
+			"@php craft setup/keys",
+			"@php -r \"file_exists('composer.json.project') && unlink('composer.json');\"",
+			"@php -r \"file_exists('composer.json.project') && rename('composer.json.project', 'composer.json');\"",
 			"@composer dump-autoload -o"
 		]
 	}
