@@ -1,0 +1,3 @@
+# Until https://github.com/prettier/prettier/pull/15526 is merged
+
+*.md
