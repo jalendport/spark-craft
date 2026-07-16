@@ -1,0 +1,16 @@
+{#
+	Site header — global masthead with primary navigation.
+
+	siteName — the site's display name, linked to the homepage
+#}
+<header class="sticky top-0 z-30 bg-white shadow-small">
+	<div class="container flex items-center justify-between clamp-[py,16,24]">
+		<a href="{{ url('/') }}" class="text-20 font-bold text-brand-heading">{{ siteName }}</a>
+		<nav aria-label="{{ 'Primary'|t('site') }}">
+			<ul class="flex clamp-[gap,16,24]">
+				{# Navigation placeholder — wire up to a Craft navigation or section here #}
+				<li><a href="{{ url('/') }}" class="text-16 text-brand-body transition-colors hover:text-brand-accent">{{ 'Home'|t('site') }}</a></li>
+			</ul>
+		</nav>
+	</div>
+</header>

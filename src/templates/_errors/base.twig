@@ -1,0 +1,23 @@
+{% extends "_layouts/base" %}
+
+{#
+	Shared error layout. Child templates set:
+		pageTitle — feeds SEOMate's <title>
+		messages  — [eyebrow, heading, body]
+#}
+{% set messages = messages ?? [] %}
+
+{% block main %}
+	<section class="container flex flex-grow flex-col items-center justify-center py-40 text-center">
+		<span class="mb-10 block text-12/18 font-bold uppercase tracking-12 text-brand-accent">{{ (messages[0] ?? '')|t('site') }}</span>
+		<h1 class="mb-20 text-40 font-bold text-brand-heading">{{ (messages[1] ?? '')|t('site') }}</h1>
+		<p class="max-w-2xl text-20 text-brand-body">{{ (messages[2] ?? '')|t('site') }}</p>
+		{% include '_components/button' with {
+			text: 'Back to home'|t('site'),
+			url: url('/'),
+			color: 'btn-accent',
+			variant: 'btn-solid',
+			classes: 'mt-30',
+		} only %}
+	</section>
+{% endblock %}

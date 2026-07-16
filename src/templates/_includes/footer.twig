@@ -1,0 +1,16 @@
+{#
+	Site footer — global footer with copyright.
+
+	siteName — the site's display name
+#}
+<footer class="bg-gray-light clamp-[py,20,40]">
+	<div class="container flex flex-col items-center justify-between gap-18 text-14 text-brand-body md:flex-row">
+		<p>&copy; {{ now|date('Y') }} {{ siteName }}. {{ 'All rights reserved.'|t('site') }}</p>
+		<nav aria-label="{{ 'Footer'|t('site') }}">
+			<ul class="flex clamp-[gap,16,24]">
+				{# Navigation placeholder — wire up to a Craft navigation or section here #}
+				<li><a href="{{ url('/') }}" class="transition-colors hover:text-brand-accent">{{ 'Home'|t('site') }}</a></li>
+			</ul>
+		</nav>
+	</div>
+</footer>

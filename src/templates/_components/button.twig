@@ -1,0 +1,32 @@
+{#
+	Button — renders an <a> when a url is given, otherwise a <button>.
+
+	text      — visible label
+	url       — optional href; its presence switches the element to <a>
+	color     — color utility class (btn-accent, btn-white, btn-error, btn-gray)
+	variant   — style utility class (btn-solid, btn-outlined, btn-plain)
+	type      — button type when rendered as a <button> (button, submit, reset)
+	classes   — extra classes appended to the element
+	leftIcon  — svg path rendered before the label
+	rightIcon — svg path rendered after the label
+#}
+{% set text = text ?? 'Button'|t('site') %}
+{% set url = url ?? null %}
+{% set color = color ?? 'btn-accent' %}
+{% set variant = variant ?? 'btn-solid' %}
+{% set type = type ?? 'button' %}
+{% set classes = classes ?? '' %}
+{% set leftIcon = leftIcon ?? null %}
+{% set rightIcon = rightIcon ?? null %}
+
+{% set element = url ? 'a' : 'button' %}
+
+{% tag element with {
+	class: ['btn', color, variant, classes],
+	href: url ?? false,
+	type: url ? false : type,
+} %}
+	{% if leftIcon %}{{ svg(leftIcon, sanitize=true, namespace=true)|attr({ class: 'size-16', aria: { hidden: 'true' } }) }}{% endif %}
+	{{ text }}
+	{% if rightIcon %}{{ svg(rightIcon, sanitize=true, namespace=true)|attr({ class: 'size-16', aria: { hidden: 'true' } }) }}{% endif %}
+{% endtag %}
