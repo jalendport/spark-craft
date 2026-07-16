@@ -1,17 +1,36 @@
-@import "tailwindcss/base";
+@import "tailwindcss" source(none);
+@source "../templates/";
+@source "../js/vue/components/";
 
-@import "tailwindcss/components";
+@import "./theme.css";
+
+@import "./variants.css";
+
 @import "./components/typography.css";
+@import "./components/container.css";
+@import "./components/buttons.css";
 @import "./components/forms.css";
 
-@import "tailwindcss/utilities";
+:root {
+	--100vh: calc(var(--vh, 1vh) * 100);
 
-@layer components {
-	html {
-		@apply motion-safe:scroll-smooth motion-safe:scroll-pt-0;
+	--100svh: 100svh;
+	@supports not (height: 100svh) {
+		--100svh: var(--100vh);
 	}
+}
 
-	body {
-		// @apply ...;
-	}
+[v-cloak] {
+	display: none;
+}
+
+html {
+	@apply motion-safe:scroll-smooth;
+}
+
+.body-scroll-lock {
+	touch-action: none;
+	-webkit-overflow-scrolling: none;
+	overflow: hidden;
+	overscroll-behavior: none;
 }

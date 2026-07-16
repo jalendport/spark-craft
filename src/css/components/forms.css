@@ -1,27 +1,25 @@
 @layer components {
 	form label {
-		@apply ~text-16/18;
+		@apply text-16/18;
 
 		abbr {
-			@apply text-red-500 no-underline;
+			@apply text-error no-underline;
 		}
 	}
 
-	@custom-selector :--text-inputs
-		input[type="text"],
-		input[type="email"],
-		input[type="tel"],
-		.form-input;
-	@custom-selector :--textarea textarea, .form-textarea;
-	@custom-selector :--text-elements :--text-inputs, :--textarea;
-
-	:--text-elements {
-		@apply ~text-16/18;
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="password"],
+	.form-input,
+	textarea,
+	.form-textarea {
+		@apply text-16/18;
 		@apply w-full bg-white;
-		@apply border border-gray-200;
+		@apply border border-gray-light;
 
 		&:focus {
-			@apply outline-none ring-1 ring-gray-500;
+			@apply ring-1 ring-brand-accent outline-none;
 		}
 
 		label + & {
@@ -31,8 +29,7 @@
 
 	textarea {
 		@apply resize-none align-top;
-		field-sizing: content;
-		min-height: calc((theme("spacing.8") * 2) + 4lh + 2px);
+		@apply min-h-[4lh] [field-sizing:content];
 	}
 
 	.honeypot {

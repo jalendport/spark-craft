@@ -1,0 +1,33 @@
+@utility container {
+	@apply max-w-[var(--breakpoint-2xl)];
+	@apply mx-auto;
+	@apply clamp-[px,24,100];
+}
+
+@utility scroll-gradient-y {
+	--scroll-bg: var(--color-gray-light);
+	--scroll-shadow: --alpha(var(--color-gray) / 50%);
+	background:
+		linear-gradient(var(--scroll-bg) 33%, transparent),
+		linear-gradient(transparent, var(--scroll-bg) 66%) 0 100%,
+		radial-gradient(farthest-side at 50% 0, var(--scroll-shadow), transparent),
+		radial-gradient(farthest-side at 50% 100%, var(--scroll-shadow), transparent) 0 100%;
+	background-color: var(--scroll-bg);
+	background-repeat: no-repeat;
+	background-attachment: local, local, scroll, scroll;
+	background-size: 100% 75px, 100% 75px, 100% 25px, 100% 25px;
+}
+
+@utility scroll-gradient-x {
+	--scroll-bg: var(--color-gray-light);
+	--scroll-shadow: --alpha(var(--color-gray) / 50%);
+	background:
+		linear-gradient(to right, var(--scroll-bg) 33%, transparent),
+		linear-gradient(to left, var(--scroll-bg) 33%, transparent) 100% 0,
+		radial-gradient(farthest-side at 0 50%, var(--scroll-shadow), transparent),
+		radial-gradient(farthest-side at 100% 50%, var(--scroll-shadow), transparent) 100% 0;
+	background-color: var(--scroll-bg);
+	background-repeat: no-repeat;
+	background-attachment: local, local, scroll, scroll;
+	background-size: 75px 100%, 75px 100%, 25px 100%, 25px 100%;
+}
