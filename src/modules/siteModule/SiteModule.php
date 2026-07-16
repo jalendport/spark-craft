@@ -52,7 +52,9 @@ class SiteModule extends BaseModule
 		}
 
 		// Defer setup tasks until Craft is fully initialized
-		Craft::$app->onInit(function() {
+		/** @var WebApplication|ConsoleApplication $app */
+		$app = Craft::$app;
+		$app->onInit(function() {
 			$this->registerTwigExtension();
 			$this->_registerLogTarget();
 		});
@@ -67,7 +69,9 @@ class SiteModule extends BaseModule
 	 */
 	public function registerTwigExtension(): void
 	{
-		Craft::$app->view->registerTwigExtension(new SiteTwigExtension());
+		/** @var WebApplication|ConsoleApplication $app */
+		$app = Craft::$app;
+		$app->getView()->registerTwigExtension(new SiteTwigExtension());
 	}
 
 	/**
