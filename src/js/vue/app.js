@@ -1,36 +1,27 @@
-import { createApp, defineAsyncComponent, onMounted } from "vue";
-import { store } from "@js/vue/store.js";
+import { createApp } from "vue";
+import { store, mutations } from "@js/vue/store";
+import { registerComponents } from "@js/vue/components";
+import { registerDirectives } from "@js/vue/directives";
 
-/*
- * Import all components
- */
-const eagerComponents = import.meta.glob(
-	[
-		"./components/**/*.vue",
-		"!./components/**/*.lazy.vue",
-		"!./components/**/*.loading.vue",
-		"!./components/**/*.error.vue",
-	],
-	{ eager: true }
-);
-const lazyComponents = import.meta.glob("./components/**/*.lazy.vue");
-const loadingComponents = import.meta.glob("./components/**/*.loading.vue", {
-	eager: true,
-});
-const errorComponents = import.meta.glob("./components/**/*.error.vue", {
-	eager: true,
-});
+import { copyToClipboard } from "@composables/clipboard";
+import { useAutoScroll } from "@composables/scroll";
+
+import { vMaska } from "maska/vue"; // https://beholdr.github.io/maska/v3/#/vue
 
 export function initializeApp() {
-	/*
-	 * Create the app
-	 */
+	// Create the app
 	const app = createApp({
 		delimiters: ["${", "}"],
 		setup() {
-			return { store };
+			// Auto-scroll to elements based on URL hash
+			useAutoScroll();
+
+			return { store, mutations, copyToClipboard };
 		},
 	});
+
+	app.provide("store", store);
+	app.provide("mutations", mutations);
 
 	app.config.errorHandler = (err, instance, info) => {
 		console.error("Error:", err);
@@ -38,49 +29,16 @@ export function initializeApp() {
 		console.log("Additional info:", info);
 	};
 
-	/*
-	 * Register eager components
-	 */
-	Object.entries(eagerComponents).forEach(([path, definition]) => {
-		const componentName = path.split("/").pop().replace(".vue", "");
-		app.component(componentName, definition.default);
-	});
+	// Register all components
+	registerComponents(app);
 
-	// const asyncComponentTester = function (path, latency) {
-	// 	return new Promise((resolve) => {
-	// 		setTimeout(() => {
-	// 			resolve(import(path));
-	// 		}, latency);
-	// 	});
-	// }; // loader: () => asyncComponentTester(path, 4000),
+	// Register all directives
+	registerDirectives(app);
+	app.directive("maska", vMaska);
 
-	/*
-	 * Register lazy components, with their corresponding loading and error components
-	 */
-	Object.entries(lazyComponents).forEach(([path, module]) => {
-		const componentName = path.split("/").pop().replace(".lazy.vue", "");
-		const loadingComponent = Object.entries(loadingComponents).find(
-			([lPath]) => lPath.replace(".loading.vue", ".lazy.vue") === path
-		)?.[1].default;
-		const errorComponent = Object.entries(errorComponents).find(
-			([ePath]) => ePath.replace(".error.vue", ".lazy.vue") === path
-		)?.[1].default;
-
-		app.component(
-			componentName,
-			defineAsyncComponent({
-				loader: module,
-				loadingComponent: loadingComponent || null,
-				delay: 500,
-				errorComponent: errorComponent || null,
-				timeout: 5000,
-				suspensible: !loadingComponent,
-			})
-		);
-	});
-
-	/*
-	 * Mount the app
-	 */
+	// Mount the app and return the instance for HMR cleanup
 	app.mount("#app");
+
+	// Return the app instance so it can be unmounted later
+	return app;
 }
