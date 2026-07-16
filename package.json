@@ -6,22 +6,26 @@
 	"scripts": {
 		"dev": "vite --config ./config/frontend/vite.config.js",
 		"build": "vite build --config ./config/frontend/vite.config.js",
-		"preview": "vite preview --config ./config/frontend/vite.config.js"
+		"preview": "vite preview --config ./config/frontend/vite.config.js",
+		"svg": "svgo --recursive --folder ./web/assets/icons --config ./config/frontend/svgo.config.mjs"
 	},
 	"dependencies": {
-		"vue": "^3.4.0"
+		"@floating-ui/vue": "^2.0.0",
+		"@vee-validate/yup": "^4.15.0",
+		"maska": "^3.2.0",
+		"vee-validate": "^4.15.0",
+		"vue": "^3.5.0",
+		"yup": "^1.7.0"
 	},
 	"devDependencies": {
-		"@tailwindcss/forms": "^0.5.0",
-		"@vitejs/plugin-legacy": "^5.4.0",
-		"@vitejs/plugin-vue": "^5.0.0",
-		"autoprefixer": "^10.4.0",
-		"fluid-tailwind": "^1.0.0",
-		"postcss": "^8.4.0",
-		"postcss-custom-selectors": "^7.1.0",
-		"postcss-import": "^16.1.0",
-		"tailwindcss": "^3.4.0",
-		"vite": "^5.2.0",
-		"vite-plugin-compression": "^0.5.0"
+		"@tailwindcss/vite": "^4.3.0",
+		"@vitejs/plugin-vue": "^6.0.0",
+		"prettier": "^3.9.0",
+		"prettier-plugin-tailwindcss": "^0.8.0",
+		"svgo": "^4.0.0",
+		"tailwind-clamp": "^4.5.0",
+		"tailwindcss": "^4.3.0",
+		"vite": "^8.1.0",
+		"vite-plugin-compression": "^0.5.1"
 	}
 }
