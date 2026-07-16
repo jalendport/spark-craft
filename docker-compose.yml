@@ -76,8 +76,8 @@ services:
       retries: 5
       start_period: 5s
     init: true
-    ports:
-      - "6379:6379"
+    expose:
+      - "6379"
     volumes:
       - redis-data:/data
 
@@ -89,9 +89,10 @@ services:
       MP_SMTP_AUTH_ACCEPT_ANY: "true"
       MP_SMTP_AUTH_ALLOW_INSECURE: "true"
     init: true
+    expose:
+      - "1025"
     ports:
-      - "1025:1025"
-      - "8025:8025"
+      - "${MAILPIT_UI_PORT:-8025}:8025"
     volumes:
       - mailpit-data:/data
 
