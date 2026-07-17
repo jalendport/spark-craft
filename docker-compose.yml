@@ -4,6 +4,12 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: "${CRAFT_DB_DATABASE}"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
     init: true
     ports:
       - "3307:3306"
@@ -12,6 +18,8 @@ services:
 
   nginx:
     image: jalendport/spark-nginx:1.26
+    depends_on:
+      - php
     init: true
     ports:
       - "8000:80"
@@ -32,6 +40,11 @@ services:
     build:
       context: ./config/docker/php
       dockerfile: ./Dockerfile
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     expose:
       - "9000"
     init: true
@@ -42,11 +55,48 @@ services:
     build:
       context: ./config/docker/queue
       dockerfile: ./Dockerfile
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     expose:
       - "9001"
     init: true
     volumes:
       - .:/app
 
+  redis:
+    image: redis:7-alpine
+    command: redis-server --requirepass ${REDIS_PASSWORD}
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD}", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 5s
+    init: true
+    expose:
+      - "6379"
+    volumes:
+      - redis-data:/data
+
+  mailpit:
+    image: axllent/mailpit:latest
+    environment:
+      MP_MAX_MESSAGES: 5000
+      MP_DATABASE: /data/mailpit.db
+      MP_SMTP_AUTH_ACCEPT_ANY: "true"
+      MP_SMTP_AUTH_ALLOW_INSECURE: "true"
+    init: true
+    expose:
+      - "1025"
+    ports:
+      - "${MAILPIT_UI_PORT:-8025}:8025"
+    volumes:
+      - mailpit-data:/data
+
 volumes:
   db-data:
+  redis-data:
+  mailpit-data:

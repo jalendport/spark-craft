@@ -1,7 +1,7 @@
 {
 	"name": "jalendport/spark-craft",
 	"description": "Craft CMS starter project",
-	"version": "1.0.0-alpha.2",
+	"version": "1.0.0-beta.1",
 	"type": "project",
 	"keywords": [
 		"craft",
@@ -31,11 +31,19 @@
 		}
 	],
 	"require": {
-		"craftcms/cms": "^5.0.0",
-		"vlucas/phpdotenv": "^5.4.0"
+		"craftcms/ckeditor": "^5.6.0",
+		"craftcms/cms": "^5.10.0",
+		"nystudio107/craft-emptycoalesce": "^5.0.0",
+		"nystudio107/craft-typogrify": "^5.0.0",
+		"nystudio107/craft-vite": "^5.0.0",
+		"vaersaagod/seomate": "^3.3.0",
+		"verbb/expanded-singles": "^3.0.0",
+		"vlucas/phpdotenv": "^5.6.0",
+		"yiisoft/yii2-redis": "^2.0.0"
 	},
 	"require-dev": {
-		"craftcms/generator": "^2.0.0",
+		"craftcms/generator": "^2.2.0",
+		"phpstan/phpstan": "^2.2.0",
 		"yiisoft/yii2-shell": "^2.0.0"
 	},
 	"autoload": {
@@ -53,12 +61,12 @@
 		"sort-packages": true,
 		"optimize-autoloader": true,
 		"platform": {
-			"php": "8.3"
+			"php": "8.4"
 		}
 	},
 	"scripts": {
 		"post-create-project-cmd": [
-			"@php -r \"file_exists('.env') || rename('.env.example', '.env');\"",
+			"@php -r \"file_exists('.env') || rename('.env.example.dev', '.env');\"",
 			"@php craft setup/keys",
 			"@php -r \"file_exists('composer.json.project') && unlink('composer.json');\"",
 			"@php -r \"file_exists('composer.json.project') && rename('composer.json.project', 'composer.json');\"",

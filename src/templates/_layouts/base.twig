@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="{{ craft.app.language }}">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	{# Let any template feed its page heading into SEOMate's <title>; the site name is appended automatically #}
+	{% if pageTitle is defined and seomate is not defined %}
+		{% set seomate = { meta: { title: pageTitle } } %}
+	{% endif %}
+	{% hook 'seomateMeta' %}
+
+	{% include "_includes/favicon" with { siteName: siteName } only %}
+
+	<link rel="stylesheet" href="{{ craft.vite.asset('src/css/main.css') }}">
+</head>
+<body id="body">
+<a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-0 focus:top-0 focus:z-50 focus:m-8 focus:rounded-8 focus:bg-brand-accent focus:px-20 focus:py-11 focus:text-brand-on-accent">{{ 'Skip to main content'|t('site') }}</a>
+
+{% block body %}
+	<div id="app" class="flex min-h-[var(--100svh)] flex-col">
+		{% include "_includes/header" with { siteName: siteName } only %}
+		<main id="main" class="flex flex-grow flex-col">
+			{% block main %}{% endblock %}
+		</main>
+		{% include "_includes/footer" with { siteName: siteName } only %}
+	</div>
+	<div id="navs" class="pointer-events-none fixed inset-0 z-20 *:pointer-events-auto"></div>
+	<div id="modals" class="pointer-events-none fixed inset-0 z-40"></div>
+{% endblock %}
+
+{% js at endBody %}
+	window.csrfTokenName = "{{ craft.app.config.general.csrfTokenName|e('js') }}";
+	window.csrfTokenValue = "{{ craft.app.request.csrfToken|e('js') }}";
+	window.environment = "{{ craft.app.config.env|e('js') }}";
+{% endjs %}
+
+{{ craft.vite.script("src/js/main.js", false) }}
+</body>
+</html>

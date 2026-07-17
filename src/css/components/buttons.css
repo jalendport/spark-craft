@@ -1,0 +1,78 @@
+@layer components {
+	.btn {
+		@apply px-30 py-11;
+		@apply border-1 border-transparent;
+		@apply rounded-full;
+		@apply text-16/18 font-semibold;
+		@apply cursor-pointer;
+
+		@apply transition-all duration-300 ease-in-out;
+
+		&:disabled {
+			@apply cursor-not-allowed;
+		}
+	}
+}
+
+@utility btn-accent {
+	--button-color: var(--color-brand-accent);
+	--button-hover-color: --alpha(var(--color-brand-accent) / 80%);
+	--button-text-color: var(--color-brand-on-accent);
+}
+
+@utility btn-white {
+	--button-color: var(--color-white);
+	--button-hover-color: --alpha(var(--color-white) / 75%);
+	--button-text-color: var(--color-brand-accent);
+}
+
+@utility btn-error {
+	--button-color: var(--color-error);
+	--button-hover-color: --alpha(var(--color-error) / 60%);
+	--button-text-color: var(--color-white);
+}
+
+@utility btn-gray {
+	--button-color: --alpha(var(--color-gray) / 25%);
+	--button-hover-color: --alpha(var(--color-gray) / 40%);
+	--button-text-color: var(--color-black);
+}
+
+@utility btn-solid {
+	@apply bg-[var(--button-color)];
+	@apply text-[var(--button-text-color)];
+
+	@apply hover:bg-[var(--button-hover-color)];
+
+	@apply disabled:bg-gray-light;
+	@apply disabled:text-black/70;
+	@apply disabled:hover:bg-gray-light;
+}
+
+@utility btn-outlined {
+	@apply border-[var(--button-color)];
+	@apply text-[var(--button-color)];
+
+	@apply hover:border-[var(--button-hover-color)];
+	@apply hover:text-[var(--button-hover-color)];
+	@apply hover:ring-1 hover:ring-[var(--button-hover-color)] hover:ring-inset;
+
+	@apply disabled:border-gray;
+	@apply disabled:text-black/70;
+	@apply disabled:hover:border-gray;
+	@apply disabled:hover:ring-0;
+}
+
+@utility btn-plain {
+	@apply rounded-0;
+	@apply border-transparent;
+	@apply text-[var(--button-color)];
+
+	@apply hover:border-transparent;
+	@apply hover:text-[var(--button-hover-color)];
+	@apply hover:border-b-[var(--button-hover-color)];
+
+	@apply disabled:text-black/70;
+	@apply disabled:hover:text-black/70;
+	@apply disabled:hover:border-b-transparent;
+}

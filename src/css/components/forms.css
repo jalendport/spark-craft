@@ -1,38 +1,146 @@
 @layer components {
 	form label {
-		@apply ~text-16/18;
+		@apply text-16/18;
 
 		abbr {
-			@apply text-red-500 no-underline;
+			@apply text-error no-underline;
 		}
 	}
 
-	@custom-selector :--text-inputs
-		input[type="text"],
-		input[type="email"],
-		input[type="tel"],
-		.form-input;
-	@custom-selector :--textarea textarea, .form-textarea;
-	@custom-selector :--text-elements :--text-inputs, :--textarea;
+	.input-container {
+		@apply flex items-center gap-12;
 
-	:--text-elements {
-		@apply ~text-16/18;
-		@apply w-full bg-white;
-		@apply border border-gray-200;
+		@apply bg-white text-black;
+		@apply px-14 py-9;
 
-		&:focus {
-			@apply outline-none ring-1 ring-gray-500;
+		@apply border border-gray/15;
+		@apply rounded-4;
+
+		@apply transition-colors duration-300 ease-in-out;
+		@apply hocus:border-gray/40;
+
+		svg {
+			@apply text-gray;
 		}
 
-		label + & {
-			@apply mt-2;
+		&.input-error {
+			@apply border-error text-error;
 		}
 	}
 
-	textarea {
-		@apply resize-none align-top;
-		field-sizing: content;
-		min-height: calc((theme("spacing.8") * 2) + 4lh + 2px);
+	.input-required {
+		@apply text-error;
+	}
+
+	input[type="text"],
+	input[type="email"],
+	input[type="tel"],
+	input[type="password"],
+	.form-input {
+		@apply w-full;
+		@apply text-16/22;
+
+		@variant placeholder {
+			@apply text-gray;
+			@apply transition-[inherit] duration-[inherit] ease-[inherit];
+		}
+
+		.input-error > & {
+			@apply placeholder:text-error;
+		}
+
+		@apply transition-[inherit] duration-[inherit] ease-[inherit];
+
+		@variant focus {
+			@apply placeholder:text-gray/50;
+			@apply outline-none;
+
+			.input-error > & {
+				@apply placeholder:text-error/50;
+			}
+		}
+	}
+
+	textarea,
+	.form-textarea {
+		@apply h-full w-full min-h-[4lh];
+		@apply resize-none align-top [field-sizing:content];
+
+		@variant focus {
+			@apply outline-none;
+		}
+	}
+
+	input[type="radio"] {
+		@apply m-0 appearance-none bg-transparent;
+		@apply size-20;
+		@apply border border-gray rounded-full;
+
+		@apply grid place-content-center;
+
+		&::before {
+			@apply content-[''] size-10 rounded-full;
+			@apply scale-0;
+			@apply transition-transform duration-100 ease-in-out;
+			box-shadow: inset 10px 10px var(--color-brand-accent);
+		}
+	}
+
+	input[type="radio"]:checked {
+		@apply border-brand-accent;
+
+		&::before {
+			@apply scale-100;
+		}
+	}
+
+	fieldset:has(input[type="checkbox"]) > div {
+		@apply flex items-center gap-10;
+	}
+
+	input[type="checkbox"] {
+		@apply m-0 appearance-none bg-transparent;
+		@apply relative size-20;
+		@apply border border-gray rounded-4;
+
+		@apply grid place-content-center;
+
+		&::before {
+			@apply content-[''] size-20 rounded-4;
+			@apply scale-0;
+			@apply transition-transform duration-100 ease-in-out;
+			box-shadow: inset 20px 20px var(--color-brand-accent);
+		}
+
+		&::after {
+			content: "";
+			@apply absolute inset-0 m-auto;
+			@apply size-14 bg-brand-on-accent;
+			@apply scale-0;
+			@apply transition-transform duration-100 ease-in-out;
+			mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+			mask-repeat: no-repeat;
+			mask-position: center;
+			mask-size: contain;
+		}
+	}
+
+	input[type="checkbox"]:checked {
+		@apply border-brand-accent;
+
+		&::before,
+		&::after {
+			@apply scale-100;
+		}
+	}
+
+	input[type="radio"] ~ label,
+	input[type="checkbox"] ~ label {
+		@apply text-16/22 text-black;
+
+		.input-error > & {
+			@apply text-error;
+		}
 	}
 
 	.honeypot {

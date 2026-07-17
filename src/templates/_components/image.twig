@@ -1,0 +1,47 @@
+{#
+	Responsive image component — renders a <picture> element, or a
+	background-image element when background is true.
+
+	Variables:
+		avif / webp / jpg / png — source URLs per format (any may be null)
+		alt                     — alt text (or aria-label in background mode)
+		classes                 — classes on the <img> (or the background element)
+		pictureAttributes       — extra attributes on the <picture> element
+		imgAttributes           — extra attributes on the <img> / background element
+		background              — render as a background-image element instead of <picture>
+		backgroundSize          — CSS background-size (background mode)
+		backgroundPosition      — CSS background-position (background mode)
+		backgroundRepeat        — CSS background-repeat (background mode)
+		tag                     — element name for the background container
+#}
+{% set fallback = jpg ?? png ?? null %}
+
+{% if background ?? false %}
+	{% set sources = [] %}
+	{% if avif ?? null %}{% set sources = sources|merge(["url('#{avif}') type('image/avif')"]) %}{% endif %}
+	{% if webp ?? null %}{% set sources = sources|merge(["url('#{webp}') type('image/webp')"]) %}{% endif %}
+	{% if jpg ?? null %}{% set sources = sources|merge(["url('#{jpg}') type('image/jpeg')"]) %}{% endif %}
+	{% if png ?? null %}{% set sources = sources|merge(["url('#{png}') type('image/png')"]) %}{% endif %}
+
+	{% tag tag ?? 'div' with {
+		class: classes ?? null,
+		style: {
+			'background-image': "image-set(#{sources|join(', ')})",
+			'background-size': backgroundSize ?? 'cover',
+			'background-position': backgroundPosition ?? 'center',
+			'background-repeat': backgroundRepeat ?? 'no-repeat',
+		},
+		role: (alt ?? null) ? 'img' : null,
+		'aria-label': alt ?? null,
+	}|merge(imgAttributes ?? {}) %}{% endtag %}
+{% else %}
+	{% tag 'picture' with pictureAttributes ?? {} %}
+		{% if avif ?? null %}{{ tag('source', { srcset: avif, type: 'image/avif' }) }}{% endif %}
+		{% if webp ?? null %}{{ tag('source', { srcset: webp, type: 'image/webp' }) }}{% endif %}
+		{{ tag('img', {
+			src: fallback,
+			alt: alt ?? '',
+			class: classes ?? null,
+		}|merge(imgAttributes ?? {})) }}
+	{% endtag %}
+{% endif %}

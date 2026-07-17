@@ -1,111 +1,145 @@
+/*
+ * Self-hosted fonts — drop woff2 files into web/assets/fonts/, uncomment,
+ * and point --font-sans / --font-display at the family in theme.css.
+ */
+/*
+@font-face {
+	font-family: "FontName";
+	font-style: normal;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("/assets/fonts/FontName.woff2") format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: "FontName";
+	font-style: italic;
+	font-weight: 100 900;
+	font-display: swap;
+	src: url("/assets/fonts/FontName-italic.woff2") format("woff2");
+	unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+*/
+
 @layer components {
-	body {
+	* {
+		font-optical-sizing: auto;
+
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+
 		@apply text-pretty;
 	}
 
-	@custom-selector :--p p:not([class*="faux-"]), .faux-p;
-	@custom-selector :--p-all :--p, .faux-p-sm, .faux-p-lg;
+	body {
+		@apply font-sans text-brand-body;
+	}
 
-	@custom-selector :--h1 h1:not([class*="faux-"]), .faux-h1;
-	@custom-selector :--h2 h2:not([class*="faux-"]), .faux-h2;
-	@custom-selector :--h3 h3:not([class*="faux-"]), .faux-h3;
-	@custom-selector :--h4 h4:not([class*="faux-"]), .faux-h4;
-	@custom-selector :--h5 h5:not([class*="faux-"]), .faux-h5;
-	@custom-selector :--h6 h6:not([class*="faux-"]), .faux-h6;
-	@custom-selector :--h-all :--h1, :--h2, :--h3, :--h4, :--h5, :--h6;
-
-	:--h-all {
+	h1:not([class*="faux-"]), .faux-h1,
+	h2:not([class*="faux-"]), .faux-h2,
+	h3:not([class*="faux-"]), .faux-h3,
+	h4:not([class*="faux-"]), .faux-h4,
+	h5:not([class*="faux-"]), .faux-h5,
+	h6:not([class*="faux-"]), .faux-h6 {
+		@apply font-display text-brand-heading;
 		@apply text-balance;
 	}
 
-	:--h1 {
-		@apply ~text-16/18;
-		// @apply font-things;
+	h1:not([class*="faux-"]), .faux-h1 {
+		@apply clamp-[text,34,48];
+		/* @apply font-things; */
 
-		& + :--p-all {
-			@apply ~mt-10/20; // margin between h1 and p
+		& + p:not([class*="faux-"]),
+		& + .faux-p,
+		& + .faux-p-sm,
+		& + .faux-p-lg {
+			@apply clamp-[mt,10,20]; /* margin between h1 and p */
 		}
 	}
 
-	:--h2 {
-		@apply ~text-16/18;
-		// @apply font-things;
+	h2:not([class*="faux-"]), .faux-h2 {
+		@apply clamp-[text,30,44];
+		/* @apply font-things; */
 
-		& + :--p-all {
-			@apply ~mt-10/20; // margin between h2 and p
+		& + p:not([class*="faux-"]),
+		& + .faux-p,
+		& + .faux-p-sm,
+		& + .faux-p-lg {
+			@apply clamp-[mt,10,20]; /* margin between h2 and p */
 		}
 	}
 
-	:--h3 {
-		@apply ~text-16/18;
-		// @apply font-things;
+	h3:not([class*="faux-"]), .faux-h3 {
+		@apply clamp-[text,28,32];
+		/* @apply font-things; */
 
-		& + :--p-all {
-			@apply ~mt-10/20; // margin between h3 and p
+		& + p:not([class*="faux-"]),
+		& + .faux-p,
+		& + .faux-p-sm,
+		& + .faux-p-lg {
+			@apply clamp-[mt,10,20]; /* margin between h3 and p */
 		}
 	}
 
-	:--h4 {
-		@apply ~text-16/18;
-		// @apply font-things;
+	h4:not([class*="faux-"]), .faux-h4 {
+		@apply text-26;
+		/* @apply font-things; */
 
-		& + :--p-all {
-			@apply ~mt-10/20; // margin between h4 and p
+		& + p:not([class*="faux-"]),
+		& + .faux-p,
+		& + .faux-p-sm,
+		& + .faux-p-lg {
+			@apply clamp-[mt,10,15]; /* margin between h4 and p */
 		}
 	}
 
-	:--h5 {
-		@apply ~text-16/18;
-		// @apply font-things;
+	h5:not([class*="faux-"]), .faux-h5 {
+		@apply text-20;
+		/* @apply font-things; */
 
-		& + :--p-all {
-			@apply ~mt-10/20; // margin between h5 and p
+		& + p:not([class*="faux-"]),
+		& + .faux-p,
+		& + .faux-p-sm,
+		& + .faux-p-lg {
+			@apply mt-10; /* margin between h5 and p */
 		}
 	}
 
-	:--h6 {
-		@apply ~text-16/18;
-		// @apply font-things;
+	h6:not([class*="faux-"]), .faux-h6 {
+		@apply text-18;
+		/* @apply font-things; */
 
-		& + :--p-all {
-			@apply ~mt-10/20; // margin between h6 and p
+		& + p:not([class*="faux-"]),
+		& + .faux-p,
+		& + .faux-p-sm,
+		& + .faux-p-lg {
+			@apply mt-5; /* margin between h6 and p */
 		}
 	}
 
-	:--p {
-		@apply ~text-16/18;
-		// @apply font-things;
+	p:not([class*="faux-"]), .faux-p {
+		@apply text-16/22;
+		/* @apply font-things; */
 
 		& + & {
-			@apply ~mt-10/20; // margin between p and p
+			@apply mt-10; /* margin between p and p */
 		}
 	}
 
 	.faux-p-sm {
-		@apply ~text-16/18;
-		// @apply font-things;
+		@apply text-14/20;
 
 		& + & {
-			@apply ~mt-10/20; // margin between p-sm and p-sm
-		}
-
-		:--p + &,
-		& + :--p {
-			@apply ~mt-10/20; // margin between p and p-sm
+			@apply mt-10; /* margin between p-sm and p-sm */
 		}
 	}
 
 	.faux-p-lg {
-		@apply ~text-16/18;
-		// @apply font-things;
+		@apply text-18/24;
 
 		& + & {
-			@apply ~mt-10/20; // margin between p-lg and p-lg
-		}
-
-		:is(:--p, .faux-p-sm) + &,
-		& + :is(:--p, .faux-p-sm) {
-			@apply ~mt-10/20; // margin between p-sm and p-lg
+			@apply mt-10; /* margin between p-lg and p-lg */
 		}
 	}
 

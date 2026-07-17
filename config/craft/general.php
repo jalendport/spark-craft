@@ -26,6 +26,10 @@ return GeneralConfig::create()
 	->disallowRobots(App::env('DISALLOW_ROBOTS') ?? false)
 	// Prevent user enumeration attacks
 	->preventUserEnumeration()
+	// Run queued jobs via a dedicated queue worker rather than automatically on web requests
+	->runQueueAutomatically(false)
+	// Prefix error templates so they live under templates/_errors/
+	->errorTemplatePrefix('_errors/')
 	// Set the @webroot alias so the clear-caches command knows where to find CP resources
 	->aliases([
 		'@web' => App::env('APP_URL'),

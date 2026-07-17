@@ -1,0 +1,110 @@
+@theme {
+	/* Screens (1rem === 16px) */
+	--breakpoint-xs: 30rem; /* 480px */
+	--breakpoint-sm: 40rem; /* 640px */
+	--breakpoint-md: 48rem; /* 768px */
+	--breakpoint-lg: 64rem; /* 1024px */
+	--breakpoint-xl: 80rem; /* 1280px */
+	--breakpoint-2xl: 96rem; /* 1536px */
+
+	/* Colors */
+
+	--color-*: initial;
+
+	--color-white: #fff;
+	--color-black: #000;
+
+	--color-gray-light: oklch(96% 0.002 250);
+	--color-gray: oklch(62% 0.01 250);
+	--color-gray-dark: oklch(42% 0.01 250);
+
+	/*
+	 * Brand tokens — placeholders, swap per project.
+	 * Every colored background gets an on-* counterpart so contrast
+	 * decisions live here, not in templates.
+	 */
+	--color-brand-accent: oklch(55% 0.15 250);
+	--color-brand-on-accent: #fff;
+	--color-brand-heading: oklch(25% 0.02 250);
+	--color-brand-body: oklch(42% 0.01 250);
+
+	--color-error: oklch(45% 0.15 15);
+	--color-success: oklch(55% 0.12 155);
+
+	/* Font Family — swap for self-hosted fonts (see components/typography.css) */
+
+	--font-sans: ui-sans-serif, system-ui, sans-serif;
+	--font-display: var(--font-sans);
+
+	/* Border Radius */
+
+	--radius-*: initial;
+
+	--radius-0: 0;
+	--radius-2: 2px;
+	--radius-4: 4px;
+	--radius-6: 6px;
+	--radius-8: 8px;
+	--radius-10: 10px;
+	--radius-12: 12px;
+	--radius-20: 20px;
+	--radius-40: 40px;
+	--radius-full: calc(infinity * 1px);
+
+	/* Box Shadows */
+
+	--shadow-small: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+	--shadow-modal: 0 0 50px 0 rgba(0, 0, 0, 0.25);
+	--shadow-card: 0 4px 50px 0 rgba(0, 0, 0, 0.15);
+
+	/* Spacing — 1px grid, so p-20 === 20px */
+
+	--spacing: 1px;
+	--spacing-1: 1px; /* needed for tailwind-clamp */
+
+	/* Font Size */
+
+	--text-*: initial;
+
+	--text-0: 0;
+	--text-12: 12px;
+	--text-14: 14px;
+	--text-16: 16px;
+	--text-18: 18px;
+	--text-20: 20px;
+	--text-22: 22px;
+	--text-24: 24px;
+	--text-26: 26px;
+	--text-28: 28px;
+	--text-30: 30px;
+	--text-32: 32px;
+	--text-34: 34px;
+	--text-36: 36px;
+	--text-38: 38px;
+	--text-40: 40px;
+	--text-42: 42px;
+	--text-44: 44px;
+	--text-46: 46px;
+	--text-48: 48px;
+	--text-50: 50px;
+
+	/* Letter Spacing */
+
+	--tracking-*: initial;
+
+	--tracking-0: 0;
+	--tracking-1: 0.1px;
+	--tracking-2: 0.2px;
+	--tracking-3: 0.3px;
+	--tracking-4: 0.4px;
+	--tracking-5: 0.5px;
+	--tracking-6: 0.6px;
+	--tracking-7: 0.7px;
+	--tracking-12: 1.2px;
+}
+
+/* https://nicolas-cusan.github.io/tailwind-clamp/ */
+@plugin "tailwind-clamp" {
+	minSize: 30rem; /* --breakpoint-xs */
+	maxSize: 96rem; /* --breakpoint-2xl */
+}

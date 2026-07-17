@@ -4,3 +4,6 @@
 
 /vendor
 /node_modules
+
+/web/dist
+/config/craft/license.key

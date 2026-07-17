@@ -1,0 +1,67 @@
+name: Build and Deploy (Production)
+on:
+  push:
+    branches: ["master"]
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v4
+      - name: Cache `vendor`
+        uses: actions/cache@v4
+        with:
+          path: |
+            vendor
+            vendor-plugins
+          key: vendor-${{ hashFiles('composer.lock') }}
+          restore-keys: vendor-
+      - name: Run `composer install`
+        uses: jalendport/spark-github-actions/composer-install/php-8.3@master
+      - name: Cache `node_modules`
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: node_modules-${{ hashFiles('package-lock.json') }}
+          restore-keys: node_modules-
+      - name: Run `npm install`
+        uses: jalendport/spark-github-actions/npm-install/node-22@master
+      - name: Run `npm run build`
+        uses: jalendport/spark-github-actions/npm-build/node-22@master
+      - name: Cache workspace
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ github.workspace }}
+          key: workspace-${{ github.run_id }}-${{ github.run_attempt }}
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Restore workspace
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ github.workspace }}
+          key: workspace-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: workspace-${{ github.run_id }}-
+      - name: Configure SSH
+        id: configure-ssh
+        uses: jalendport/spark-github-actions/configure-ssh@master
+        with:
+          environment: production
+          ssh-host: ${{ secrets.PRODUCTION_SSH_HOST }}
+          ssh-user: ${{ secrets.PRODUCTION_SSH_USER }}
+          ssh-key: ${{ secrets.PRODUCTION_SSH_KEY }}
+      - name: Deploy to server
+        uses: jalendport/spark-github-actions/rsync-deploy@master
+        with:
+          flags: "-avz --no-o --no-g --delete"
+          ssh-config: ${{ steps.configure-ssh.outputs.ssh-config }}
+          ssh-path: ${{ secrets.PRODUCTION_SSH_PATH }}
+          excludes: |
+            /.github
+            /node_modules
+      - name: Trigger Laravel Forge deployment
+        uses: jalendport/spark-github-actions/trigger-laravel-forge@master
+        with:
+          trigger-url: ${{ secrets.PRODUCTION_FORGE_DEPLOY_TRIGGER_URL }}

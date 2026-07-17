@@ -1,10 +1,18 @@
 {
 	"require": {
-		"craftcms/cms": "^5.0.0",
-		"vlucas/phpdotenv": "^5.4.0"
+		"craftcms/ckeditor": "^5.6.0",
+		"craftcms/cms": "^5.10.0",
+		"nystudio107/craft-emptycoalesce": "^5.0.0",
+		"nystudio107/craft-typogrify": "^5.0.0",
+		"nystudio107/craft-vite": "^5.0.0",
+		"vaersaagod/seomate": "^3.3.0",
+		"verbb/expanded-singles": "^3.0.0",
+		"vlucas/phpdotenv": "^5.6.0",
+		"yiisoft/yii2-redis": "^2.0.0"
 	},
 	"require-dev": {
-		"craftcms/generator": "^2.0.0",
+		"craftcms/generator": "^2.2.0",
+		"phpstan/phpstan": "^2.2.0",
 		"yiisoft/yii2-shell": "^2.0.0"
 	},
 	"autoload": {
@@ -22,10 +30,11 @@
 		"sort-packages": true,
 		"optimize-autoloader": true,
 		"platform": {
-			"php": "8.3"
+			"php": "8.4"
 		}
 	},
 	"scripts": {
+		"phpstan": "phpstan --memory-limit=1G",
 		"craft-update": [
 			"@php craft install/check && php craft migrate/all --interactive=0 || exit 0",
 			"@php craft install/check && php craft project-config/apply --interactive=0 || exit 0",

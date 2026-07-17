@@ -1,0 +1,66 @@
+{#
+	Pagination — page-number navigation for a paginated query.
+
+	pageInfo  — Craft paginate object (from {% paginate %})
+	prevLabel — label for the previous-page control
+	nextLabel — label for the next-page control
+#}
+{% set pageInfo = pageInfo ?? null %}
+{% set prevLabel = prevLabel ?? 'Back'|t('site') %}
+{% set nextLabel = nextLabel ?? 'Next'|t('site') %}
+
+{% if pageInfo and pageInfo.totalPages > 1 %}
+	{% set currentPage = pageInfo.currentPage %}
+	{% set totalPages = pageInfo.totalPages %}
+
+	<nav class="mt-40 flex justify-center gap-8" aria-label="{{ 'Pagination'|t('site') }}">
+		{# Previous #}
+		{% if pageInfo.prevUrl %}
+			<a href="{{ pageInfo.prevUrl }}" class="flex h-30 items-center justify-center px-8 text-brand-body transition-colors hover:text-brand-accent">{{ prevLabel }}</a>
+		{% else %}
+			<span class="flex h-30 items-center justify-center px-8 opacity-25">{{ prevLabel }}</span>
+		{% endif %}
+
+		{# First page + leading ellipsis #}
+		{% if currentPage > 2 and totalPages > 3 %}
+			<a href="{{ pageInfo.getPageUrl(1) }}" class="flex h-30 w-30 items-center justify-center transition-colors hover:text-brand-accent">1</a>
+		{% endif %}
+		{% if currentPage > 3 and totalPages > 4 %}
+			<span class="flex h-30 w-30 items-center justify-center opacity-25">…</span>
+		{% endif %}
+
+		{# Window of pages around the current page #}
+		{% set startPage = max(1, currentPage - 1) %}
+		{% set endPage = min(totalPages, currentPage + 1) %}
+		{% if endPage - startPage < 2 and totalPages > 2 %}
+			{% if currentPage <= 2 %}
+				{% set endPage = min(totalPages, 3) %}
+			{% elseif currentPage >= totalPages - 1 %}
+				{% set startPage = max(1, totalPages - 2) %}
+			{% endif %}
+		{% endif %}
+
+		{% for page in startPage..endPage %}
+			{% if page == currentPage %}
+				<span class="flex h-30 w-30 items-center justify-center rounded-4 bg-brand-accent/20" aria-current="page">{{ page }}</span>
+			{% else %}
+				<a href="{{ pageInfo.getPageUrl(page) }}" class="flex h-30 w-30 items-center justify-center transition-colors hover:text-brand-accent">{{ page }}</a>
+			{% endif %}
+		{% endfor %}
+
+		{# Trailing ellipsis + last page #}
+		{% if currentPage < totalPages - 2 and totalPages > 4 %}
+			<span class="flex h-30 w-30 items-center justify-center opacity-25">…</span>
+		{% endif %}
+		{% if currentPage < totalPages - 1 and totalPages > 3 %}
+			<a href="{{ pageInfo.getPageUrl(totalPages) }}" class="flex h-30 w-30 items-center justify-center transition-colors hover:text-brand-accent">{{ totalPages }}</a>
+		{% endif %}
+
+		{# Next #}
+		{% if pageInfo.nextUrl %}
+			<a href="{{ pageInfo.nextUrl }}" class="flex h-30 items-center justify-center px-8 text-brand-body transition-colors hover:text-brand-accent">{{ nextLabel }}</a>
+		{% else %}
+			<span class="flex h-30 items-center justify-center px-8 opacity-25">{{ nextLabel }}</span>
+		{% endif %}
+	</nav>
+{% endif %}

@@ -1,0 +1,9 @@
+{% extends "_errors/base" %}
+
+{% set pageTitle = 'Access denied'|t('site') %}
+
+{% set messages = [
+	'Sorry',
+	'Access denied',
+	message ?? 'You do not have permission to view this page.',
+] %}

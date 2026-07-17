@@ -4,7 +4,7 @@
  */
 
 // Define path constants
-define('CRAFT_BASE_PATH', __DIR__);
+define('CRAFT_BASE_PATH', dirname(dirname(__DIR__)));
 define('CRAFT_VENDOR_PATH', CRAFT_BASE_PATH . '/vendor');
 define('CRAFT_TEMPLATES_PATH', CRAFT_BASE_PATH . '/src/templates');
 define('CRAFT_CONFIG_PATH', CRAFT_BASE_PATH . '/config/craft');

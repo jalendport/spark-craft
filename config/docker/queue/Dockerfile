@@ -1,4 +1,4 @@
-FROM jalendport/spark-php:8.3-cli
+FROM jalendport/spark-php:8.4-cli
 
 COPY ./run_queue.sh /app-tmp/run_queue.sh
 RUN chmod a+x /app-tmp/run_queue.sh
