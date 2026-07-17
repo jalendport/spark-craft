@@ -2,6 +2,16 @@
 
 [![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
 
+## [1.0.0-beta.2] - 2026-07-16
+
+### Changed
+
+- Make the deploy workflows inert in the boilerplate repo itself ([`f1b11d6`](https://github.com/jalendport/spark-craft/commit/f1b11d6ec55c1ab2427f50ce135f14911b361706))
+
+### Added
+
+- Ship the staging and production deploy workflows in `composer create-project` dists ([`2eef62a`](https://github.com/jalendport/spark-craft/commit/2eef62a8823049a54b271cbd3ae7d40610056285))
+
 ## [1.0.0-beta.1] - 2026-07-16
 
 ### Changed
@@ -44,6 +54,7 @@
 
 _Initial release_
 
+[1.0.0-beta.2]: https://github.com/jalendport/spark-craft/releases/tag/1.0.0-beta.2
 [1.0.0-beta.1]: https://github.com/jalendport/spark-craft/releases/tag/1.0.0-beta.1
 [1.0.0-alpha.2]: https://github.com/jalendport/spark-craft/releases/tag/1.0.0-alpha.2
 [1.0.0-alpha.1]: https://github.com/jalendport/spark-craft/releases/tag/1.0.0-alpha.1
