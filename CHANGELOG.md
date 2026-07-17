@@ -2,7 +2,7 @@
 
 [![Common Changelog](https://common-changelog.org/badge.svg)](https://common-changelog.org)
 
-## [1.0.0] - 2026-07-16
+## [1.0.0-beta.1] - 2026-07-16
 
 ### Changed
 
@@ -44,6 +44,6 @@
 
 _Initial release_
 
-[1.0.0]: https://github.com/jalendport/spark-craft/releases/tag/1.0.0
+[1.0.0-beta.1]: https://github.com/jalendport/spark-craft/releases/tag/1.0.0-beta.1
 [1.0.0-alpha.2]: https://github.com/jalendport/spark-craft/releases/tag/1.0.0-alpha.2
 [1.0.0-alpha.1]: https://github.com/jalendport/spark-craft/releases/tag/1.0.0-alpha.1
