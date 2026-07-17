@@ -5,6 +5,8 @@ on:
   workflow_dispatch:
 jobs:
   build:
+    # Inert in the boilerplate repo itself — activates in projects created from it
+    if: github.repository != 'jalendport/spark-craft'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the repository
