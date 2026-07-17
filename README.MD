@@ -22,6 +22,8 @@ Create a project from the boilerplate:
 composer create-project jalendport/spark-craft <dir>
 ```
 
+While spark-craft is in beta there's no stable release for Composer's default stability to match, so pass the stability flag: `composer create-project jalendport/spark-craft <dir> --stability=beta`.
+
 Composer's `post-create-project-cmd` then runs automatically and:
 
 1. Renames `.env.example.dev` to `.env`.
