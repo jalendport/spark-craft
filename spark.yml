@@ -20,4 +20,5 @@ create:
     composer.json.project: composer.json
   replace:
     __PROJECT_NAME__: "{project_name}"
-  post: []
+  post:
+    - "[ -f .env ] || cp .env.example.dev .env"
