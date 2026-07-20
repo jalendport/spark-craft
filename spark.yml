@@ -1,0 +1,23 @@
+name: spark-craft
+description: Craft CMS 5 starter with Docker, Vite, Twig, and Vue
+
+commands:
+  craft:
+    run: docker compose exec php ./craft {args}
+    help: Run Craft console commands inside the php container
+  composer:
+    run: docker compose exec php composer {args}
+    help: Run Composer inside the php container
+  npm:
+    run: docker compose exec node npm {args}
+    help: Run npm inside the node container
+
+create:
+  prompts:
+    - key: project_name
+      label: Project name
+  rename:
+    composer.json.project: composer.json
+  replace:
+    __PROJECT_NAME__: "{project_name}"
+  post: []
