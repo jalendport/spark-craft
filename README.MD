@@ -1,49 +1,52 @@
-# Spark - Craft
+<p align="center"><img src=".github/icon.svg" alt="Spark Craft" width="80" height="80"></p>
 
-An opinionated [Craft CMS 5](https://craftcms.com) starter project by [Jalen Davenport](https://jalendport.com). It ships a Dockerized local stack, a modern Vite frontend, and a Twig/Vue template skeleton so a new site starts from a working, conventional baseline instead of a blank slate.
+<h1 align="center">Spark Craft</h1>
 
-## Stack at a glance
+<p align="center"><em>An opinionated Craft CMS 5 starter that boots to a working site, not a blank slate.</em></p>
 
-- **Craft CMS 5.10** on **PHP 8.4**
-- **Vite 8** with **Vue 3.5** and **Tailwind CSS 4** (CSS-first config)
-- **Docker** for the full local stack: MySQL, nginx, Node/Vite, PHP-FPM, a queue worker, Redis, and Mailpit
-- Plugins: CKEditor, SEOMate, Expanded Singles, Empty Coalesce, Typogrify
+Every new Craft site starts with the same setup: wiring a local stack, configuring a bundler, structuring templates, picking plugins. Spark Craft is that baseline already built — a [Craft CMS 5](https://craftcms.com) boilerplate that a single `spark create` turns into a running, conventional site with a Dockerized local stack, a modern Vite frontend, and a Twig/Vue template skeleton.
 
-## Requirements
+## Features
 
-- [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or a compatible engine) for the local stack
-- Node 22+ and npm, only for host-side tooling such as Prettier and the SVG optimizer — the Vite dev server itself runs inside the `node` container
+- **Craft CMS 5.10 on PHP 8.4** — with CKEditor, SEOMate, Expanded Singles, Empty Coalesce, and Typogrify bundled
+- **Full Docker stack** — MySQL, nginx, PHP-FPM, a queue worker, Redis, Mailpit, and a Node container running Vite; nothing to install on the host beyond Docker and the spark CLI
+- **spark-native workflow** — `spark up`, `spark craft`, `spark composer`, and `spark npm` drive the whole stack, with no `docker compose exec` incantations
+- **Modern frontend** — Vite 8, Vue 3.5 with auto-registered components, and Tailwind CSS 4 with CSS-first design tokens
+- **Template conventions** — a `_router.twig` dispatch pattern, parameterized components, and a layered `_layouts` / `_partials` / `_includes` structure from day one
+- **Deploys included** — GitHub Actions workflows for staging and production, built on reusable Spark composite actions
 
-## Getting started
+## Installation
 
-Create a project from the boilerplate:
-
-```sh
-composer create-project jalendport/spark-craft <dir>
-```
-
-While spark-craft is in beta there's no stable release for Composer's default stability to match, so pass the stability flag: `composer create-project jalendport/spark-craft <dir> --stability=beta`.
-
-Composer's `post-create-project-cmd` then runs automatically and:
-
-1. Renames `.env.example.dev` to `.env`.
-2. Generates the app keys (`craft setup/keys`), which populates `CRAFT_APP_ID` and `CRAFT_SECURITY_KEY` in `.env`.
-3. Swaps in the real `composer.json` (see below) and dumps an optimized autoloader.
-
-### The dual `composer.json` mechanism
-
-The repo tracks two files: `composer.json` and `composer.json.project`. The first is what `composer create-project` reads to build your project — it carries the `post-create-project-cmd` script and project metadata. `composer.json.project` is the leaner manifest your project should actually live with (it drops the create-time scaffolding and adds the `craft-update` / `phpstan` scripts). During post-create, the original `composer.json` is deleted and `composer.json.project` is renamed into its place. After creating a project you'll only have a single `composer.json`; the `.project` variant only matters inside this boilerplate repo.
-
-Once created, bring the stack up (see below), then install Craft and enable the bundled plugins:
+You'll need [Docker Desktop](https://www.docker.com/products/docker-desktop/) or a compatible engine for the local stack, plus the [spark CLI](https://github.com/jalendport/spark-cli):
 
 ```sh
-docker compose exec php ./craft install
-docker compose exec php sh -c 'for plugin in vite seomate typogrify empty-coalesce ckeditor expanded-singles; do ./craft plugin/install $plugin; done'
+brew install jalendport/tap/spark
 ```
 
-(You can also install from the browser at `http://localhost:8000/admin`, but the plugins still need `plugin/install` — the composer packages alone don't enable them.)
+Scaffold a project:
 
-## Docker workflow
+```sh
+spark create craft my-site
+cd my-site
+```
+
+`spark create` downloads the boilerplate, copies `.env.example.dev` to `.env`, swaps the leaner `composer.json.project` into place as your project's `composer.json` (it carries the `craft-update` and `phpstan` scripts), and initializes a fresh git repository — the first commit is yours to make.
+
+Then bring the stack up and install Craft with the bundled plugins:
+
+```sh
+spark up
+spark composer install
+spark craft setup/keys
+spark craft install
+for plugin in vite seomate typogrify empty-coalesce ckeditor expanded-singles; do spark craft plugin/install $plugin; done
+```
+
+`setup/keys` populates `CRAFT_APP_ID` and `CRAFT_SECURITY_KEY` in `.env`. (You can also install Craft from the browser at `http://localhost:8000/admin`, but the plugins still need `plugin/install` — the composer packages alone don't enable them.)
+
+## Usage
+
+### Docker workflow
 
 `docker-compose.yml` defines the local services:
 
@@ -57,38 +60,34 @@ docker compose exec php sh -c 'for plugin in vite seomate typogrify empty-coales
 | `redis`   | `redis:7-alpine`         | internal only                     |
 | `mailpit` | `axllent/mailpit`        | `8025` (web UI, overridable)      |
 
-Start everything:
-
-```sh
-docker compose up
-```
-
-The site is served at `http://localhost:8000`, the Vite dev server at `http://localhost:8080`, and Mailpit's inbox UI at `http://localhost:8025` (set `MAILPIT_UI_PORT` in `.env` when another project already claims 8025).
+`spark up` starts everything detached; `spark logs` tails the services and `spark down` stops them. The site is served at `http://localhost:8000`, the Vite dev server at `http://localhost:8080`, and Mailpit's inbox UI at `http://localhost:8025` (set `MAILPIT_UI_PORT` in `.env` when another project already claims 8025).
 
 On first boot the `node` container runs `npm install` for you. Keep it that way: Vite's bundler ships platform-native binaries, so a `node_modules/` installed from the macOS host won't run inside the Linux container. If you ever install on the host (e.g. for editor tooling), delete `node_modules/` and restart the `node` container to get a container-native install back.
 
 Run Craft console commands inside the `php` container:
 
 ```sh
-docker compose exec php ./craft <command>
+spark craft <command>
 ```
 
 Scaffold Craft classes with the generator:
 
 ```sh
-docker compose exec php ./craft make <type> --with-docblocks
+spark craft make <type> --with-docblocks
 ```
 
-## Frontend
+The verbs come from two places: the project's `spark.yml` maps `spark craft`, `spark composer`, and `spark npm` into the right containers, and the CLI ships built-ins (`up`, `down`, `restart`, `logs`, `sh`, `run`) for the compose lifecycle. Run `spark` from the project root to see them all.
+
+### Frontend
 
 The frontend source lives in `src/`, and Vite is configured in `config/frontend/vite.config.js`. There are two entry points, `src/js/main.js` and `src/css/main.css`, injected into Twig via the [craft-vite](https://github.com/nystudio107/craft-vite) plugin (`craft.vite.script(...)` / `craft.vite.asset(...)`). Built assets land in `web/dist/`.
 
-npm scripts:
+npm scripts (run in the `node` container via `spark npm`):
 
-- `npm run dev` — start the Vite dev server (normally run for you by the `node` container)
-- `npm run build` — production build
-- `npm run preview` — preview a production build
-- `npm run svg` — optimize icons in `web/assets/icons/{16,20,24}` with SVGO
+- `spark npm run dev` — start the Vite dev server (normally run for you by the `node` container)
+- `spark npm run build` — production build
+- `spark npm run preview` — preview a production build
+- `spark npm run svg` — optimize icons in `web/assets/icons/{16,20,24}` with SVGO
 
 ### Tailwind 4
 
@@ -114,7 +113,7 @@ The kit ships a set of form components (`FormInput`, `FormSelect`, `FormCheckbox
 - **Icons** are optimized SVGs in `web/assets/icons/{16,20,24}` (organized by pixel size) and rendered inline via Craft's `svg()` function — for example the `_components/button.twig` `leftIcon` / `rightIcon` params.
 - **Fonts** are self-hosted: drop `woff2` files into `web/assets/fonts/`, uncomment the `@font-face` blocks in `src/css/components/typography.css`, and point `--font-sans` / `--font-display` at the family in `theme.css`.
 
-## Templates
+### Templates
 
 Templates live in `src/templates/` — the templates path is moved there by the `CRAFT_TEMPLATES_PATH` constant defined in `config/craft/bootstrap.php`.
 
@@ -125,20 +124,20 @@ Templates live in `src/templates/` — the templates path is moved there by the 
 - **`_includes/`** holds shared chrome such as the header, footer, and favicon.
 - **`_errors/`** holds error templates; `errorTemplatePrefix` (set in `config/craft/general.php`) points Craft's error pages at that folder.
 
-## Config
+### Quality tooling
+
+- **PHPStan** — `spark composer phpstan`, configured in `phpstan.neon` at level 5 and scoped to `src/modules`.
+- **Prettier** with `prettier-plugin-tailwindcss` for class sorting (config in `.prettierrc`).
+- **`.editorconfig`** — tabs, 4-wide (2-space for YAML and JSON).
+
+## Configuration
 
 Craft config lives in `config/craft/`:
 
 - `general.php`, `app.php`, `vite.php`, `seomate.php`, plus a shared `bootstrap.php` that defines the base/templates/config paths and loads the environment.
 - Redis is wired as the cache backend and Mailpit as the dev mailer in `app.php`, both driven by env vars.
 
-Environment files come as a per-environment trio: `.env.example.dev`, `.env.example.staging`, and `.env.example.production`. Post-create copies the dev variant to `.env`; copy the staging/production variants onto their respective servers.
-
-## Quality
-
-- **PHPStan** — `composer phpstan`, configured in `phpstan.neon` at level 5 and scoped to `src/modules`.
-- **Prettier** with `prettier-plugin-tailwindcss` for class sorting (config in `.prettierrc`).
-- **`.editorconfig`** — tabs, 4-wide (2-space for YAML and JSON).
+Environment files come as a per-environment trio: `.env.example.dev`, `.env.example.staging`, and `.env.example.production`. `spark create` copies the dev variant to `.env`; copy the staging/production variants onto their respective servers.
 
 ## Deployment
 
@@ -157,10 +156,10 @@ Each builds (`composer install`, `npm install`, `npm run build`), rsyncs to the 
 
 > Note: the composite actions currently pin `php-8.3` and `node-22` variants, while the runtime images are on PHP 8.4.
 
-## Releases
+## Support
 
-The project follows [git-flow](https://nvie.com/posts/a-successful-git-branching-model/): work merges into `develop`, releases are cut on `release/*` branches and merged to `master`. Changes are recorded in `CHANGELOG.md` following [Common Changelog](https://common-changelog.org). Pushing a tag triggers `.github/workflows/release.yml`, which creates the GitHub release (tags containing `alpha` or `beta` are marked pre-releases).
+Found a bug or need help? Open an [issue](https://github.com/jalendport/spark-craft/issues).
 
-## License
+<hr>
 
-[0BSD](LICENSE.md)
+<p align="center">Made by <a href="https://jalendport.com">Jalen Davenport</a></p>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 500 500" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,0,-600)">
+        <g id="Spark---Craft" serif:id="Spark - Craft" transform="matrix(1,0,0,1,1.88294e-13,600)">
+            <rect x="0" y="0" width="500" height="500" style="fill:none;"/>
+            <g transform="matrix(-0.764372,-9.36085e-17,9.36085e-17,-0.764372,999.455,501.753)">
+                <path d="M980.485,5.029C1169.75,5.029 1378.65,366.846 1284.01,530.757C1189.38,694.669 771.59,694.669 676.956,530.757C582.322,366.846 791.217,5.029 980.485,5.029Z" style="fill:rgb(229,66,43);"/>
+            </g>
+            <g transform="matrix(11.5748,0,0,11.5748,-59.2564,-76.7959)">
+                <path d="M26.625,32.563C28.375,32.563 30.25,31.875 32.063,30.25L34.563,33.125C31.938,35.25 28.938,36.438 25.938,36.438C20,36.438 16.25,32.5 17.125,26.938C18,21.375 23.063,17.438 29,17.438C31.875,17.438 34.563,18.563 36.438,20.625L32.938,23.5C31.938,22.188 30.25,21.313 28.375,21.313C24.813,21.313 22.063,23.625 21.5,26.938C21,30.25 23,32.563 26.625,32.563" style="fill:white;fill-rule:nonzero;"/>
+            </g>
+        </g>
+    </g>
+</svg>
