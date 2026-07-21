@@ -23,26 +23,29 @@ You'll need [Docker Desktop](https://www.docker.com/products/docker-desktop/) or
 brew install jalendport/tap/spark
 ```
 
-Scaffold a project:
+Scaffold and start a project:
 
 ```sh
 spark create craft my-site
-cd my-site
 ```
 
-`spark create` downloads the boilerplate, copies `.env.example.dev` to `.env`, swaps the leaner `composer.json.project` into place as your project's `composer.json` (it carries the `craft-update` and `phpstan` scripts), and initializes a fresh git repository — the first commit is yours to make.
+Answer the prompts and you'll land on a running site at [http://localhost:8000](http://localhost:8000), with the control panel at [/admin](http://localhost:8000/admin).
 
-Then bring the stack up and install Craft with the bundled plugins:
+`spark create` downloads the boilerplate, initializes a fresh git repository, then asks to run setup. Confirm, and it swaps `composer.json.project` into place as your project's `composer.json`, copies `.env.example.dev` to `.env`, brings the Docker stack up, and installs Craft together with the bundled plugins — prompting only for your admin account and site name (the site URL is set for you). Decline, and spark prints those commands so you can run them whenever you're ready.
+
+### Without the spark CLI
+
+Prefer plain Composer? `composer create-project` scaffolds the same project:
 
 ```sh
-spark up
-spark composer install
-spark craft setup/keys
-spark craft install
-for plugin in vite seomate typogrify empty-coalesce ckeditor expanded-singles; do spark craft plugin/install $plugin; done
+composer create-project jalendport/spark-craft my-site
 ```
 
-`setup/keys` populates `CRAFT_APP_ID` and `CRAFT_SECURITY_KEY` in `.env`. (You can also install Craft from the browser at `http://localhost:8000/admin`, but the plugins still need `plugin/install` — the composer packages alone don't enable them.)
+Its `post-create-project-cmd` copies `.env` from `.env.example.dev`, swaps `composer.json.project` into place as your `composer.json`, and removes the interim lockfile. From there, wire up your own stack:
+
+1. Configure `.env` for your environment — `APP_URL` must be set, since the installer reads it through the `@web` alias.
+2. Run `composer install` to pull in Craft and the bundled plugins.
+3. Run `composer craft-setup` to generate keys, install Craft, and enable the plugins.
 
 ## Usage
 
@@ -137,7 +140,7 @@ Craft config lives in `config/craft/`:
 - `general.php`, `app.php`, `vite.php`, `seomate.php`, plus a shared `bootstrap.php` that defines the base/templates/config paths and loads the environment.
 - Redis is wired as the cache backend and Mailpit as the dev mailer in `app.php`, both driven by env vars.
 
-Environment files come as a per-environment trio: `.env.example.dev`, `.env.example.staging`, and `.env.example.production`. `spark create` copies the dev variant to `.env`; copy the staging/production variants onto their respective servers.
+Environment files come as a per-environment trio: `.env.example.dev`, `.env.example.staging`, and `.env.example.production`. The `post-create-project-cmd` composer script copies the dev variant to `.env` during setup; copy the staging/production variants onto their respective servers.
 
 ## Deployment
 
