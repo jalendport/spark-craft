@@ -30,6 +30,12 @@ services:
     build:
       context: ./config/docker/node
       dockerfile: ./Dockerfile
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://127.0.0.1:8080/@vite/client"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+      start_period: 10m
     init: true
     ports:
       - "8080:8080"
