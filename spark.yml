@@ -16,9 +16,13 @@ create:
   prompts:
     - key: project_name
       label: Project name
+  copy:
+    .env.example.dev: .env
+  rename:
+    composer.json.project: composer.json
   replace:
     __PROJECT_NAME__: "{project_name}"
+    __PROJECT_SLUG__: "{project_name:slug}"
   setup:
-    - spark run --no-deps php composer run-script post-create-project-cmd
     - spark up --wait
-    - spark composer craft-setup
+    - docker compose exec -e SITE_NAME="{project_name}" php composer craft-setup

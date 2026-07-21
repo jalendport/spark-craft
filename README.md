@@ -31,7 +31,7 @@ spark create craft my-site
 
 Answer the prompts and you'll land on a running site at [http://localhost:8000](http://localhost:8000), with the control panel at [/admin](http://localhost:8000/admin).
 
-`spark create` downloads the boilerplate, initializes a fresh git repository, then asks to run setup. Confirm, and it swaps `composer.json.project` into place as your project's `composer.json`, copies `.env.example.dev` to `.env`, brings the Docker stack up, and installs Craft together with the bundled plugins — prompting only for your admin account and site name (the site URL is set for you). Decline, and spark prints those commands so you can run them whenever you're ready.
+`spark create` downloads the boilerplate and asks for your project name once, threading it through the project — the npm package name, the composer description, and the site name Craft is installed with. It copies `.env.example.dev` to `.env`, swaps `composer.json.project` into place as your project's `composer.json`, initializes a fresh git repository, then asks to run setup. Confirm, and it brings the Docker stack up — dependencies install on first boot — and installs Craft together with the bundled plugins, prompting only for your admin account and site language (the site name and URL are set for you). Decline, and spark prints those commands so you can run them whenever you're ready.
 
 ### Without the spark CLI
 
@@ -45,7 +45,7 @@ Its `post-create-project-cmd` copies `.env` from `.env.example.dev`, swaps `comp
 
 1. Configure `.env` for your environment — `APP_URL` must be set, since the installer reads it through the `@web` alias.
 2. Run `composer install` to pull in Craft and the bundled plugins.
-3. Run `composer craft-setup` to generate keys, install Craft, and enable the plugins.
+3. Run `composer craft-setup` to generate keys, install Craft, and enable the plugins — the installer prompts for your site name along with the admin account.
 
 ## Usage
 
@@ -140,7 +140,7 @@ Craft config lives in `config/craft/`:
 - `general.php`, `app.php`, `vite.php`, `seomate.php`, plus a shared `bootstrap.php` that defines the base/templates/config paths and loads the environment.
 - Redis is wired as the cache backend and Mailpit as the dev mailer in `app.php`, both driven by env vars.
 
-Environment files come as a per-environment trio: `.env.example.dev`, `.env.example.staging`, and `.env.example.production`. The `post-create-project-cmd` composer script copies the dev variant to `.env` during setup; copy the staging/production variants onto their respective servers.
+Environment files come as a per-environment trio: `.env.example.dev`, `.env.example.staging`, and `.env.example.production`. `spark create` copies the dev variant to `.env` (on the Composer path, the `post-create-project-cmd` script does the same); copy the staging/production variants onto their respective servers.
 
 ## Deployment
 
